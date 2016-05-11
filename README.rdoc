@@ -1,0 +1,10 @@
+== README
+
+= Current Updates:
+* Abstract support
+* Genre support
+
+= Current Features:
+* Simple title and Complex title conversion (minus languages at the moment).
+* Abstract support
+* Genre support

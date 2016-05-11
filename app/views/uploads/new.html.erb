@@ -1,0 +1,21 @@
+<% if !@uploads.errors.empty? %>
+    <div class="alert alert-error">
+      <ul>
+        <% @uploads.errors.full_messages.each do |msg| %>
+            <li><%= msg %></li>
+        <% end %>
+      </ul>
+    </div>
+<% end %>
+
+<div class="well">
+  <%= simple_form_for @uploads, html: { multipart: true } do |f| %>
+      <%= f.label :institution %>
+      <%= f.text_field :institution %>
+      <%= f.input :title_type, collection: ['Simple', 'Complex'], label: "Select Title Type", selected: 'Simple' %>
+      <%= f.label :attachment %>
+      <%= f.file_field :attachment %>
+      <br /> <br />
+      <%= f.submit "Save and Process", class: "btn btn-primary" %>
+  <% end %>
+</div>

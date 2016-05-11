@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<mods:mods xmlns:mods='http://www.loc.gov/mods/v3' xsi:schemaLocation='http://www.loc.gov/mods/v3 http://www.loc.gov/standards/mods/v3/mods-3-5.xsd' version='3.5' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
+  <mods:titleInfo displayLabel='primary_display' lang='rus' usage='primary'>
+    <mods:title>Игорь Кио Цирк</mods:title>
+  </mods:titleInfo>
+  <mods:titleInfo lang='eng' type='translated'>
+    <mods:title>Circus Igor Kio</mods:title>
+  </mods:titleInfo>
+  <mods:typeOfResource>still image</mods:typeOfResource>
+  <mods:genre authority='gmgpc' authorityURI='http://id.loc.gov/vocabulary/graphicMaterials' displayLabel='general' valueURI='http://id.loc.gov/vocabulary/graphicMaterials/tgm008104'>Posters</mods:genre>
+  <mods:genre authority='gmgpc' authorityURI='http://id.loc.gov/vocabulary/graphicMaterials' displayLabel='general' valueURI='http://id.loc.gov/vocabulary/graphicMaterials/tgm008237'>Prints</mods:genre>
+  <mods:genre authority='gmgpc' authorityURI='http://id.loc.gov/vocabulary/graphicMaterials' displayLabel='specific' valueURI='http://id.loc.gov/vocabulary/graphicMaterials/tgm010745'>Theatrical posters</mods:genre>
+  <mods:originInfo>
+    <mods:publisher>Внешторгиздат</mods:publisher>
+    <mods:place>
+      <mods:placeTerm type='text'>[U.S.S.R.]</mods:placeTerm>
+    </mods:place>
+    <mods:dateIssued encoding='w3cdtf' keyDate='yes' point='start' qualifier='approximate'>1930</mods:dateIssued>
+    <mods:dateIssued encoding='w3cdtf' point='end' qualifier='approximate'>1969</mods:dateIssued>
+  </mods:originInfo>
+  <mods:language>
+    <mods:languageTerm authority='iso639-2b' authorityURI='http://id.loc.gov/vocabulary/iso639-2' type='text' valueURI='http://id.loc.gov/vocabulary/iso639-2/rus'>Russian</mods:languageTerm>
+  </mods:language>
+  <mods:physicalDescription>
+    <mods:digitalOrigin>reformatted digital</mods:digitalOrigin>
+    <mods:extent>1 print : color ; 85 x 57 cm.</mods:extent>
+    <mods:internetMediaType>image/tiff</mods:internetMediaType>
+    <mods:internetMediaType>image/jpeg</mods:internetMediaType>
+    <mods:internetMediaType>image/jp2</mods:internetMediaType>
+  </mods:physicalDescription>
+  <mods:note>Title from item.</mods:note>
+  <mods:note type='date'>Date supplied by cataloger.</mods:note>
+  <mods:note type='date'>Mid-twentieth century</mods:note>
+  <mods:note type='language'>Title in Cyrillic.</mods:note>
+  <mods:subject authority='lctgm' authorityURI='http://id.loc.gov/vocabulary/graphicMaterials' valueURI='http://id.loc.gov/vocabulary/graphicMaterials/tgm006172'>
+    <mods:topic>Magic</mods:topic>
+  </mods:subject>
+  <mods:subject authority='lctgm' authorityURI='http://id.loc.gov/vocabulary/graphicMaterials' valueURI='http://id.loc.gov/vocabulary/graphicMaterials/tgm003788'>
+    <mods:topic>Faces</mods:topic>
+  </mods:subject>
+  <mods:subject authority='lctgm' authorityURI='http://id.loc.gov/vocabulary/graphicMaterials' valueURI='http://id.loc.gov/vocabulary/graphicMaterials/tgm008458'>
+    <mods:topic>Question marks</mods:topic>
+  </mods:subject>
+  <mods:accessCondition displayLabel='rights' type='use and reproduction'>Rights status not evaluated.</mods:accessCondition>
+  <mods:accessCondition displayLabel='license' type='use and reproduction'>This work is licensed for use under a Creative Commons Attribution Non-Commercial No Derivatives License (CC BY-NC-ND).</mods:accessCondition>
+  <mods:relatedItem type='host'>
+    <mods:titleInfo>
+      <mods:title>Print Department Collection</mods:title>
+    </mods:titleInfo>
+  </mods:relatedItem>
+  <mods:location>
+    <mods:physicalLocation>Boston Public Library</mods:physicalLocation>
+    <mods:holdingSimple>
+      <mods:copyInformation>
+        <mods:subLocation>Print Department</mods:subLocation>
+      </mods:copyInformation>
+    </mods:holdingSimple>
+  </mods:location>
+  <mods:identifier type='local-accession'>11_04_000005</mods:identifier>
+  <mods:recordInfo>
+    <mods:recordContentSource>Boston Public Library</mods:recordContentSource>
+    <mods:recordOrigin>human prepared</mods:recordOrigin>
+    <mods:languageOfCataloging>
+      <mods:languageTerm authority='iso639-2b' authorityURI='http://id.loc.gov/vocabulary/iso639-2' type='text' valueURI='http://id.loc.gov/vocabulary/iso639-2/eng'>English</mods:languageTerm>
+    </mods:languageOfCataloging>
+    <mods:descriptionStandard authority='marcdescription'>gihc</mods:descriptionStandard>
+  </mods:recordInfo>
+  <mods:location>
+    <mods:url access='preview'>http://ark.digitalcommonwealth.org/ark:/50959/4j03d9181/thumbnail</mods:url>
+    <mods:url access='object in context' usage='primary'>http://ark.digitalcommonwealth.org/ark:/50959/4j03d9181</mods:url>
+  </mods:location>
+  <mods:identifier type='uri'>http://ark.digitalcommonwealth.org/ark:/50959/4j03d9181</mods:identifier>
+</mods:mods>
