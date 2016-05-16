@@ -202,7 +202,7 @@ module Mods2rdf
                   spatial_match.first.exactMatch = spatial_match.first.exactMatch + ["http://vocab.getty.edu/tgn/#{geomash_hash[:tgn][:id]}"]
                 end
               end
-              
+
               new_subject.spatial = [spatial_match.first]
             else
               new_spatial = Spatial.new
