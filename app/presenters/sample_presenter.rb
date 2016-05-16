@@ -3,4 +3,5 @@ class SamplePresenter < CurationConcerns::WorkShowPresenter
   delegate :alternativeTitle, to: :solr_document
   delegate :translatedTitle, to: :solr_document
   delegate :abstract, to: :solr_document
+  delegate :dcsubject, to: :solr_document
 end

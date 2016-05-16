@@ -3,6 +3,7 @@
 = Current Updates:
 * Abstract support
 * Genre support
+* Some subject support (primarily complex topics)
 
 = Current Features:
 * Simple title and Complex title conversion (minus languages at the moment).

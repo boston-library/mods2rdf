@@ -21,6 +21,7 @@ module Mods2rdf
 
       process_genre
       process_abstract
+      process_subject
 
       @object.save!
       return @object.id
@@ -143,6 +144,86 @@ module Mods2rdf
         if text_value.present?
           @object.abstract = @object.abstract + [abstract]
         end
+      end
+    end
+
+    def self.process_subject
+      @xml.xpath('//mods/subject').each do |subject_info|
+        value_uri = subject_info.attributes['valueURI'].value if subject_info.attributes['valueURI'].present?
+        authority_uri = subject_info.attributes['authorityURI'].value if subject_info.attributes['authorityURI'].present?
+        authority = subject_info.attributes['authority'].value if subject_info.attributes['authority'].present?
+        if authority_uri.present? and value_uri.present? && value_uri.match('/').blank?
+          value_uri = authority_uri + value_uri
+        end
+
+
+        full_subject_list = []
+        geographic_component = nil
+        subject_info.children.each do |child|
+          if ['topic', 'genre'].include? child.name
+            full_subject_list << child.text
+          end
+
+          if child.name == 'geographic'
+            full_subject_list << child.text
+            geographic_component = child.text
+          end
+        end
+
+        full_subject_value = full_subject_list.join('--')
+
+
+
+        #Find matches for the term
+        subject_match = Subject.where(:prefLabel=>full_subject_value)
+
+        if subject_match.first.present?
+          @object.dcsubject = @object.dcsubject + [subject_match.first]
+          if !(subject_match.first.exactMatch.include? value_uri)
+            subject_match.first.exactMatch = subject_match.first.exactMatch + [value_uri]
+            subject_match.first.exactMatch.save!
+          end
+
+
+        elsif full_subject_value.present?
+          new_subject = Subject.new
+          new_subject.prefLabel = full_subject_value
+          new_subject.exactMatch = [value_uri]
+          @object.dcsubject = @object.dcsubject + [new_subject]
+          if geographic_component.present?
+            spatial_match = Spatial.where(:prefLabel=>geographic_component)
+            if spatial_match.first.present?
+              @object.dcsubject.spatial = spatial_match.first
+              geomash_hash = Geomash.parse(geographic_component)
+              if geomash_hash.present? and geomash_hash[:tgn].present?
+                if geomash_hash[:term_differs_from_tgn]
+                  spatial_match.first.closeMatch = spatial_match.first.closeMatch + ["http://vocab.getty.edu/tgn/#{geomash_hash[:tgn][:id]}"]
+                else
+                  spatial_match.first.exactMatch = spatial_match.first.exactMatch + ["http://vocab.getty.edu/tgn/#{geomash_hash[:tgn][:id]}"]
+                end
+              end
+
+            else
+              new_spatial = Spatial.new
+              new_spatial.prefLabel = geographic_component
+              new_spatial.label = geographic_component
+              geomash_hash = Geomash.parse(geographic_component)
+              if geomash_hash.present? and geomash_hash[:tgn].present?
+                if geomash_hash[:term_differs_from_tgn]
+                  new_spatial.closeMatch = new_spatial.closeMatch + ["http://vocab.getty.edu/tgn/#{geomash_hash[:tgn][:id]}"]
+                else
+                  new_spatial.exactMatch = new_spatial.exactMatch + ["http://vocab.getty.edu/tgn/#{geomash_hash[:tgn][:id]}"]
+                end
+              end
+              new_spatial.save!
+              @object.dcsubject.spatial = new_spatial
+            end
+          end
+          new_subject.save!
+
+
+        end
+
       end
     end
   end

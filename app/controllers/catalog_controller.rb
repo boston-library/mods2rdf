@@ -83,6 +83,7 @@ class CatalogController < ApplicationController
     config.global_search_fields << 'alt_prefLabel_ssm'
     config.global_search_fields << 'abstract_ssim'
     config.global_search_fields << 'file_format_tesim'
+    config.global_search_fields << 'dcsubject_text_tesim'
 
     config.add_search_field('all_fields', label: 'All Fields', include_in_advanced_search: false) do |field|
       title_name = solr_name('title', :stored_searchable, type: :string)

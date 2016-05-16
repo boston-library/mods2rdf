@@ -32,6 +32,10 @@ class SolrDocument
     fetch('abstract_ssim', [])
   end
 
+  def dcsubject
+    fetch('dcsubject_text_ssim', [])
+  end
+
   def translatedTitle
     final_return = []
     supplied_array = fetch('trans_supplied_ssm', [])

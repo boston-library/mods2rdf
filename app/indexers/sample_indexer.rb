@@ -87,8 +87,16 @@ class SampleIndexer < CurationConcerns::WorkIndexer
       end
 
 
+      if object.dcsubject.present?
+        solr_doc['dcsubject_text_ssim'] = []
+        object.dcsubject.each do |subj|
+          solr_doc['dcsubject_text_ssim'] << [subj.prefLabel]
+        end
+
+      end
 
 
     end
+
   end
 end

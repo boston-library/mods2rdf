@@ -9,6 +9,8 @@ class Sample < ActiveFedora::Base
   has_and_belongs_to_many :prefLabel, predicate: ::RDF::Vocab::SKOSXL.prefLabel, class_name: "ComplexTitle"
   has_and_belongs_to_many :alternativeTitle, predicate: ::RDF::URI.new('http://opaquenamespace.org/ns/mods/alternativeTitle'), class_name: "ComplexTitle"
   has_and_belongs_to_many :translatedTitle, predicate: ::RDF::URI.new('http://opaquenamespace.org/ns/mods/translatedTitle'), class_name: "ComplexTitle"
+  has_and_belongs_to_many :dcsubject, predicate: ::RDF::Vocab::DC.subject, class_name: "Subject"
+  has_and_belongs_to_many :spatial, predicate: ::RDF::Vocab::DC.spatial, class_name: "Spatial"
 
   property :simple_alternative, predicate: ::RDF::Vocab::DC.alternative, multiple: true do |index|
     index.as :stored_searchable

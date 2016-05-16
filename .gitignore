@@ -25,6 +25,7 @@ fedora.yml
 solr.yml
 secrets.yml
 blacklight.yml
+geomash.yml
 
 # Files to ignore by default in Git #
 #####################################
@@ -60,6 +61,7 @@ Gemfile.lock
 /*jetty*
 /fcrepo4-data/*
 /fcrepo4-development-data/*
+/public/uploads/*
 
 # Ignore edited Linux files #
 #############################
