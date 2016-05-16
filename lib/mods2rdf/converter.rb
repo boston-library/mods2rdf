@@ -193,7 +193,7 @@ module Mods2rdf
           if geographic_component.present?
             spatial_match = Spatial.where(:prefLabel=>geographic_component)
             if spatial_match.first.present?
-              @object.dcsubject.spatial = spatial_match.first
+
               geomash_hash = Geomash.parse(geographic_component)
               if geomash_hash.present? and geomash_hash[:tgn].present?
                 if geomash_hash[:term_differs_from_tgn]
@@ -202,7 +202,8 @@ module Mods2rdf
                   spatial_match.first.exactMatch = spatial_match.first.exactMatch + ["http://vocab.getty.edu/tgn/#{geomash_hash[:tgn][:id]}"]
                 end
               end
-
+              
+              new_subject.spatial = [spatial_match.first]
             else
               new_spatial = Spatial.new
               new_spatial.prefLabel = geographic_component
@@ -216,8 +217,7 @@ module Mods2rdf
                 end
               end
               new_spatial.save!
-              new_subject.save!
-              new_subject.spatial = new_spatial
+              new_subject.spatial = [new_spatial]
             end
           end
           new_subject.save!
