@@ -216,6 +216,7 @@ module Mods2rdf
                 end
               end
               new_spatial.save!
+              new_subject.save!
               new_subject.spatial = new_spatial
             end
           end
