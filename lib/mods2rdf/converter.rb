@@ -142,7 +142,7 @@ module Mods2rdf
 
 
         if text_value.present?
-          @object.abstract = @object.abstract + [abstract]
+          @object.abstract = @object.abstract + [text_value]
         end
       end
     end
@@ -188,7 +188,7 @@ module Mods2rdf
         elsif full_subject_value.present?
           new_subject = Subject.new
           new_subject.prefLabel = full_subject_value
-          new_subject.exactMatch = [value_uri]
+          new_subject.exactMatch = [value_uri] if value_uri.present?
           @object.dcsubject = @object.dcsubject + [new_subject]
           if geographic_component.present?
             spatial_match = Spatial.where(:prefLabel=>geographic_component)
