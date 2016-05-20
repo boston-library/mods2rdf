@@ -30,11 +30,21 @@ module Mods2rdf
     #FIXME: language...
     #FIXME: "<<" and ".append" don't seem to work so setting these weird...
     def self.process_simple_title
+      use_blank_title = false
+      use_blank_uniform_title = false
+      if @xml.xpath('//mods/titleInfo[@usage="primary"]').length == 0 and @xml.xpath('//mods/titleInfo[not(@*)]').length == 1
+        use_blank_title = true
+      elsif @xml.xpath('//mods/titleInfo[@usage="primary"]').length == 0 and @xml.xpath('//mods/titleInfo[@type="uniform"]').length == 1
+        use_blank_uniform_title = true
+      end
+
       @xml.xpath('//mods/titleInfo').each do |title_info|
         usage = title_info.attributes['usage'].value if title_info.attributes['usage'].present?
         language = title_info.attributes['lang'].value if title_info.attributes['lang'].present?
         nonSort = title_info.xpath('./nonSort').present? ? title_info.xpath('./nonSort').first.text : ''
         subtitle = title_info.xpath('./subtitle').first.text if title_info.xpath('./subtitle').present?
+        type = title_info.attributes['type'].value if title_info.attributes['type'].present?
+        value_uri = title_info.attributes['valueURI'].value if title_info.attributes['valueURI'].present?
 
         full_title = nonSort + title_info.xpath('./title').first.text
         full_title = full_title + ' : ' + subtitle if subtitle.present?
@@ -48,10 +58,8 @@ module Mods2rdf
         end
 
 
-        if usage == 'primary'
+        if usage == 'primary' || (type.blank? and use_blank_title) || (type == 'uniform' and use_blank_uniform_title)
           @object.title = @object.title + [full_title]
-          type = title_info.attributes['type'].value if title_info.attributes['type'].present?
-          value_uri = title_info.attributes['valueURI'].value if title_info.attributes['valueURI'].present?
           if type == 'uniform' && value_uri.present?
             @object.title = [RDF::URI.new(value_uri)]
           end
@@ -65,6 +73,13 @@ module Mods2rdf
     #FIXME: "<<" and ".append" don't seem to work so setting these weird...
     #FIXME: Fedora seems to break on titles that are not literals?!?
     def self.process_complex_title
+      use_blank_title = false
+      use_blank_uniform_title = false
+      if @xml.xpath('//mods/titleInfo[@usage="primary"]').length == 0 and @xml.xpath('//mods/titleInfo[not(@*)]').length == 1
+        use_blank_title = true
+      elsif @xml.xpath('//mods/titleInfo[@usage="primary"]').length == 0 and @xml.xpath('//mods/titleInfo[@type="uniform"]').length == 1
+        use_blank_uniform_title = true
+      end
       @xml.xpath('//mods/titleInfo').each do |title_info|
         usage = title_info.attributes['usage'].value if title_info.attributes['usage'].present?
         type = title_info.attributes['type'].value if title_info.attributes['type'].present?
@@ -90,7 +105,7 @@ module Mods2rdf
         full_title = nonSort + full_title
 
 
-        if usage == 'primary' && type == 'uniform' && value_uri.present?
+        if (usage == 'primary' || use_blank_uniform_title) && type == 'uniform' && value_uri.present?
           @object.title = [full_title]
           @object.complexTitle =  [RDF::URI.new(value_uri)]
         else
@@ -100,13 +115,13 @@ module Mods2rdf
           @title.supplied = supplied if supplied.present?
           @title.save!
 
-          if usage == 'primary'
+          if usage == 'primary' || (type.blank? and use_blank_title) || (type == 'uniform' and use_blank_uniform_title)
             @object.title = @object.title + [full_title]
             @object.complexTitle = @object.complexTitle + [@title]
             if @object.complexTitle.size == 1
               @object.prefLabel = [@title]
             end
-          elsif type == 'alternative' || type.blank?
+          elsif type == 'alternative' || (type.blank? and !no_usage_attribute)
             @object.alternativeTitle = @object.alternativeTitle + [@title]
           elsif type == 'translated'
             @object.translatedTitle = @object.translatedTitle + [@title]
