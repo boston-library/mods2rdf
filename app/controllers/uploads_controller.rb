@@ -13,7 +13,7 @@ class UploadsController < ApplicationController
     @uploads = Upload.new(uploads_params)
 
     if @uploads.save
-      id = Mods2rdf::Converter.process(@uploads.attachment.read, @uploads.title_type, current_or_guest_user.user_key)
+      id = Mods2rdf::Converter.process(@uploads.attachment.read, @uploads.title_type, @uploads.note_type, current_or_guest_user.user_key)
       @uploads.noid = id
       @uploads.save!
       redirect_to uploads_path, notice: "The MODS XML for #{@uploads.institution} has been uploaded."
@@ -41,6 +41,6 @@ class UploadsController < ApplicationController
 
   private
   def uploads_params
-    params.require(:upload).permit(:institution, :title_type, :noid, :attachment)
+    params.require(:upload).permit(:institution, :title_type, :note_type, :noid, :attachment)
   end
 end

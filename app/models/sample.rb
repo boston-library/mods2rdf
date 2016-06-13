@@ -11,12 +11,22 @@ class Sample < ActiveFedora::Base
   has_and_belongs_to_many :translatedTitle, predicate: ::RDF::URI.new('http://opaquenamespace.org/ns/mods/translatedTitle'), class_name: "ComplexTitle"
   has_and_belongs_to_many :dcsubject, predicate: ::RDF::Vocab::DC.subject, class_name: "Subject"
   has_and_belongs_to_many :spatial, predicate: ::RDF::Vocab::DC.spatial, class_name: "Spatial"
+  has_and_belongs_to_many :note_complex, predicate: ::RDF::URI.new('http://bibframe.org/vocab/note'), class_name: "Note"
 
   property :simple_alternative, predicate: ::RDF::Vocab::DC.alternative, multiple: true do |index|
     index.as :stored_searchable
   end
 
   property :abstract, predicate: ::RDF::Vocab::DC.abstract, multiple: true do |index|
+    index.as :stored_searchable, :symbol
+  end
+
+  property :toc, predicate: ::RDF::Vocab::DC.tableOfContents, multiple: true do |index|
+    index.as :stored_searchable, :symbol
+  end
+
+
+  property :note_simple, predicate: ::RDF::Vocab::SKOS.note, multiple: true do |index|
     index.as :stored_searchable, :symbol
   end
 

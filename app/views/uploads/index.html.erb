@@ -22,7 +22,7 @@
   <% @uploads.each do |upload| %>
       <tr>
         <td><%= upload.institution %></td>
-        <td>Title Type: <%= upload.title_type %></td>
+        <td>Title Type: <%= upload.title_type %>, Note Type: <%= upload.note_type %></td>
         <td><%= link_to "Download #{upload.attachment_identifier}", upload.attachment_url %></td>
         <% if upload.noid.present? %>
             <td><%= link_to "View In Fedora", ActiveFedora.config.credentials[:url] + ActiveFedora.config.credentials[:base_path] + '/' + ActiveFedora::Noid.treeify(upload.noid) %></td>

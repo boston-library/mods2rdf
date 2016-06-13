@@ -1,7 +1,7 @@
 module Mods2rdf
   class Converter
 
-    def self.process(xml, title_type, user_key)
+    def self.process(xml, title_type, note_type, user_key)
       @xml = Nokogiri::XML(xml).remove_namespaces!
       @object = Sample.new
 
@@ -22,6 +22,14 @@ module Mods2rdf
       process_genre
       process_abstract
       process_subject
+      process_toc
+
+      case note_type
+        when 'Simple'
+          process_simple_note
+        when 'Complex'
+          process_complex_note
+      end
 
       @object.save!
       return @object.id
@@ -162,6 +170,42 @@ module Mods2rdf
       end
     end
 
+    def self.process_toc
+      @xml.xpath('//mods/tableOfContents').each do |toc_info|
+        xlink = toc_info.attributes['xlink:href'].value if toc_info.attributes['xlink:href'].present?
+        value = toc_info.text
+
+        @object.toc = @object.toc + [::RDF::URI.new(xlink)] if xlink.present?
+        @object.toc = @object.toc + [value] if value.present?
+      end
+    end
+
+    def self.process_simple_note
+      @xml.xpath('//mods/note').each do |note_info|
+        note_type = note_info.attributes['type'].value if note_info.attributes['type'].present?
+        note_value = note_info.text
+
+        if note_type.present?
+          @object.note_simple = @object.note_simple + [note_type.capitalize + ': ' + note_value]
+        else
+          @object.note_simple = @object.note_simple + [note_value]
+        end
+      end
+    end
+
+    def self.process_complex_note
+      @xml.xpath('//mods/note').each do |note_info|
+        note_type = note_info.attributes['type'].value if note_info.attributes['type'].present?
+        note_value = note_info.text
+        new_note = Note.new
+        new_note.label = note_value
+        new_note.noteType = note_type if note_type.present?
+        @object.note_complex = @object.note_complex + [new_note]
+        new_note.save!
+
+      end
+    end
+
     def self.process_subject
       @xml.xpath('//mods/subject').each do |subject_info|
         value_uri = subject_info.attributes['valueURI'].value if subject_info.attributes['valueURI'].present?
@@ -194,7 +238,7 @@ module Mods2rdf
 
         if subject_match.first.present?
           @object.dcsubject = @object.dcsubject + [subject_match.first]
-          if !(subject_match.first.exactMatch.include? value_uri)
+          if value_uri.present? and !(subject_match.first.exactMatch.include? value_uri)
             subject_match.first.exactMatch = subject_match.first.exactMatch + [value_uri]
             subject_match.first.exactMatch.save!
           end

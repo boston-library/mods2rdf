@@ -95,6 +95,25 @@ class SampleIndexer < CurationConcerns::WorkIndexer
 
       end
 
+      solr_doc['toc_text_ssim'] = object.toc
+
+      solr_doc['notes_ssim'] = object.note_simple
+
+      if object.note_complex.present?
+        object.note_complex.each do |note|
+          if note.noteType.present?
+            solr_doc['notes_ssim'] << note.noteType.capitalize + ': ' + note.label
+          else
+            solr_doc['notes_ssim'] << note.label
+          end
+
+        end
+
+      end
+
+
+
+
 
     end
 

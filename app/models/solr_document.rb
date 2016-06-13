@@ -58,4 +58,12 @@ class SolrDocument
     final_return
   end
 
+  def toc
+    fetch('toc_ssim', [])
+  end
+
+  def notes
+    fetch('notes_ssim', [])
+  end
+
 end
